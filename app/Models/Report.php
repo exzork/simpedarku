@@ -37,7 +37,7 @@ class Report extends Model
     }
 
     public function stakeholder(){
-        return $this->belongsTo(Stakeholder::class);
+        return $this->belongsTo(StakeHolder::class);
     }
 
     public function getImageUrlAttribute()

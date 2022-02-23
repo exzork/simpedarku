@@ -61,7 +61,7 @@ class User extends Authenticatable
 
     public function stakeholder()
     {
-        return $this->belongsTo(Stakeholder::class);
+        return $this->belongsTo(StakeHolder::class);
     }
 
     protected $appends = [
