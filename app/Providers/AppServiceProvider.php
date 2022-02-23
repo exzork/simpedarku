@@ -24,7 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \URL::forceScheme('https');
+        if (config('app.env') != 'local') {
+            \URL::forceScheme('https');
+        }
         //
         Blade::directive('admin',function (){
             return "<?php if(auth()->user()->is_admin): ?>";
