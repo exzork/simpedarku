@@ -1,4 +1,16 @@
-SIMPEDARKU
+# SIMPEDARKU
+
+Dengan semakin banyaknya kasus yang bersifat darurat, baik itu kejahatan, kecelakaan/isu kesehatan, ataupun kebakaran. Munculah ide untuk membangun sebuah sistem dimana masyarakat bisa melaporkan keadaan darurat mereka langsung ke pihak berwajib. Dengan adanya sistem ini diharapkan bisa membantu mempercepat penanganan keadaan darurat.
+
+## DEV LOGIN INFO
+|   Attr    |     Value      |
+|-----------|----------------|
+| Email     | test@mail.com  |
+| Password  | admin123       |
+    
+## APK
+
+Belum tersedia
 
 ## TODO
 
