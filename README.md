@@ -28,7 +28,7 @@ Belum tersedia
 - [ ] Implementasi websocket ( agar laporan masuk realtime )
 - [ ] Dashboard untuk admin, stake holder, lalu user
 - [ ] Update profil.
-
+- [ ] Register user menggunakan website.
 
 ### Apk
 
