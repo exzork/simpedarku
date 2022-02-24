@@ -20,7 +20,7 @@ Belum tersedia
 
 ### API
 - [x] Implementasi upload foto
-- [ ] Tambah endpoint untuk update profil user.
+- [x] Tambah endpoint untuk update profil user.
 
 
 ### Web

@@ -2,10 +2,14 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
 {
+    protected $api_token;
+    protected bool $with_profile = false;
+
     /**
      * Transform the resource into an array.
      *
@@ -14,10 +18,38 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $data = [
             'id' => $this->id,
-            'name'=>$this->name,
-            'email'=>$this->email,
+            'name' => $this->name,
+            'email' => $this->email,
         ];
+        $this->api_token ? $data['api_token'] = $this->api_token : '';
+
+        if ($this->with_profile) {
+            $data['is_admin'] = $this->is_admin;
+            $data['is_stakeholder'] = $this->is_stakeholder;
+            $data['stakeholder_id'] = $this->stakeholder_id;
+            $data['gender'] = $this->gender;
+            $data['nik'] = $this->nik;
+            $data['address'] = $this->address;
+            $data['blood_type'] = $this->blood_type;
+            $data['phone'] = $this->phone;
+            $data['emergency_phone'] = $this->emergency_phone;
+        }
+
+        return $data;
+    }
+
+    public function api_token($value)
+    {
+        $this->api_token = $value;
+        return $this;
+    }
+
+    public function with_profile()
+    {
+        $this->with_profile = true;
+        return $this;
     }
 }
+

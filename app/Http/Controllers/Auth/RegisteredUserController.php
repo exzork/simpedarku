@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
@@ -33,17 +34,19 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $requestData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'gender' => ['required', Rule::in(['LAKI-LAKI','PEREMPUAN'])],
+            'nik'=> ['required', 'numeric', 'digits:16','unique:users'],
+            'address'=>['required','string','max:255'],
+            'blood_type'=>['required',Rule::in(['A','B','AB','O'])],
+            'phone'=>['required','numeric','digits_between:10,13'],
+            'emergency_phone'=>['required','numeric','digits_between:10,13'],
         ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $requestData['password'] = Hash::make($requestData['password']);
+        $user = User::create($requestData);
 
         event(new Registered($user));
 

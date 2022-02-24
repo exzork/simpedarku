@@ -802,16 +802,16 @@ select {
 .max-w-7xl {
   max-width: 80rem;
 }
-.max-w-fit {
-  max-width: -webkit-fit-content;
-  max-width: -moz-fit-content;
-  max-width: fit-content;
-}
 .max-w-2xl {
   max-width: 42rem;
 }
 .max-w-lg {
   max-width: 32rem;
+}
+.max-w-fit {
+  max-width: -webkit-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
 }
 .max-w-xl {
   max-width: 36rem;

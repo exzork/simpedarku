@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Resources\UserResource;
 use App\Providers\RouteServiceProvider;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
@@ -30,11 +31,18 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        try {
+            $request->authenticate();
+        }catch (\Exception $e){
+            return $this->error($e->getMessage(), 403);
+        }
 
         $request->session()->regenerate();
+        $api_token = \auth()->user()->createToken('API Token')->plainTextToken;
 
-        return $request->wantsJson() ? $this->success(\auth()->user()): redirect()->intended(RouteServiceProvider::HOME);
+        $user =  UserResource::make(\auth()->user())->api_token($api_token);
+
+        return $request->wantsJson() ? $this->success($user): redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**
@@ -45,6 +53,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
+        \auth()->user()->tokens()->delete();
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
