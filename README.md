@@ -32,7 +32,7 @@ Belum tersedia
 
 ### Apk
 
-
+- [ ] Login dan Register menggunakan apk.
 - [ ] Pembuatan form untuk masing masing kategori.
 - [ ] Listing history laporan.
 - [ ] Update profil.
