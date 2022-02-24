@@ -53,7 +53,7 @@ class ReportPolicy
      */
     public function update(User $user, Report $report)
     {
-        return $user->is_admin || $user->stakeholder_id = $report->stakeholder_id;
+        return $user->is_admin || $user->stakeholder->type_id === $report->type_id;
     }
 
     /**

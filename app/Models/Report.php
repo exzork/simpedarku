@@ -42,6 +42,6 @@ class Report extends Model
 
     public function getImageUrlAttribute()
     {
-        return $this->image_path == null ? Storage::url($this->image_path) : null;
+        return Storage::url($this->image_path) ?? null;
     }
 }

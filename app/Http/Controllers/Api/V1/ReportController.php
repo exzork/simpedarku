@@ -8,6 +8,7 @@ use App\Models\Report;
 use App\Models\Type;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -87,6 +88,7 @@ class ReportController extends Controller
 
         $validated = $validator->validated();
 
+        $validated['image_path'] = Storage::putFile('public/reports', $validated['image']);
         $validated['type_id'] = Type::where('name', $validated['type'])->first()->id;
         $validated['user_id'] = auth()->id();
         $validated['status'] = 'PENDING';
@@ -130,22 +132,29 @@ class ReportController extends Controller
             return $this->error('Not found', 404);
         }
         try {
-            $this->authorize('create', $report);
+            $this->authorize('update', $report);
         }catch (\Exception $e){
             return $this->error('You are not authorized to update this report.', 403);
         }
         $validator = Validator::make($request->all(), [
-            'type' => ['required', Rule::in(['POLISI', 'RUMAH SAKIT', 'PEMADAM KEBAKARAN'])],
-            'description' => 'required|string',
-            'image' => ['present', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:10240'],
-            'status' => ['present', Rule::in(['PENDING', 'PROCESS', 'DONE'])],
+            'type' => ['filled', Rule::in(['POLISI', 'RUMAH SAKIT', 'PEMADAM KEBAKARAN'])],
+            'description' => 'filled|string',
+            'image' => ['filled', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:10240'],
+            'status' => [Rule::in(['PENDING', 'PROCESS', 'DONE'])],
         ]);
 
         if ($validator->fails()) {
             return $this->error($validator->errors(), 422);
         }
 
-        $validated = array_replace($report->toArray(), $validator->validated());
+        $validated_input = $validator->validated();
+        if($validated_input['image']){
+            if($report->image_path){
+                Storage::delete($report->image_path);
+            }
+            $validated_input['image_path'] = Storage::putFile('public/reports', $validated_input['image']);
+        }
+        $validated = array_replace($report->toArray(), $validated_input);
         $validated['type_id'] = Type::where('name', $validated['type'])->first()->id;
         if ($report->update($validated)) {
             return $this->success(ReportResource::make($report), 200);

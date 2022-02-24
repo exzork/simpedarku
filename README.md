@@ -19,7 +19,7 @@ Belum tersedia
 ## TODO
 
 ### API
-- [ ] Implementasi upload gambar
+- [x] Implementasi upload foto
 - [ ] Tambah endpoint untuk update profil user.
 
 
