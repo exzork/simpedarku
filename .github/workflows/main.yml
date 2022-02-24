@@ -25,12 +25,11 @@ jobs:
             git pull --no-edit origin main
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            cp ../.env.staging .env
             sudo chown -R muhammadekop_mep:muhammadekop_mep public
             npm install
             npm run prod
             docker-compose build
-            docker-compose -d
+            docker-compose up -d
             docker image prune -f
             docker exec exzork_simpedarku_dev chown -R www-data:www-data storage
             docker exec exzork_simpedarku_dev chown -R www-data:www-data html
