@@ -31,11 +31,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        try {
-            $request->authenticate();
-        }catch (\Exception $e){
-            return $this->error(['errors'=>[$e->getMessage()]], 403);
-        }
+        $request->authenticate();
 
         $request->session()->regenerate();
         $api_token = \auth()->user()->createToken('API Token')->plainTextToken;
