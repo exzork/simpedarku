@@ -34,6 +34,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        \auth()->user()->tokens->where('name', "API Token")->delete();
         $api_token = \auth()->user()->createToken('API Token')->plainTextToken;
 
         $user =  UserResource::make(\auth()->user())->api_token($api_token);
