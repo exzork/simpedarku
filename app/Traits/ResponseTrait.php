@@ -5,6 +5,9 @@ trait ResponseTrait
 {
     public function success($data = [], $code = 200, $message="")
     {
+        if(count($data)==1){
+            $data = [$data];
+        }
         return response()->json([
             'status' => 'success',
             'data' => $data,
@@ -14,6 +17,9 @@ trait ResponseTrait
 
     public function error($data = [], $code = 400, $message = '')
     {
+        if(count($data)==1){
+            $data = [$data];
+        }
         return response()->json([
             'status' => 'error',
             'data' => $data,
