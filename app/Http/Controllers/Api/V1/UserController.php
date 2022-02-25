@@ -24,7 +24,7 @@ class UserController extends Controller
         $users = User::get();
         if (!auth()->user()->is_admin) {
             $user = $users->where('id', auth()->user()->id)->first();
-            return $this->success(['users'=>[UserResource::make($user)]]);
+            return $this->success(['user'=>UserResource::make($user)]);
         }
         return $this->success(['users'=>UserResource::collection($users)]);
     }
@@ -39,7 +39,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $this->authorize('view', $user);
-        return $this->success(['users'=>[UserResource::make($user)->with_profile()]]);
+        return $this->success(['user'=>UserResource::make($user)->with_profile()]);
     }
 
 
@@ -71,6 +71,6 @@ class UserController extends Controller
             'emergency_phone' => 'filled|phone',
         ]);
         $user->update($validatedData);
-        return $this->success(['user'=>[UserResource::make($user)->with_profile()]]);
+        return $this->success(['user'=>UserResource::make($user)->with_profile()]);
     }
 }
