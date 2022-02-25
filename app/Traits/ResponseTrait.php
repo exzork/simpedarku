@@ -3,18 +3,20 @@ namespace App\Traits;
 
 trait ResponseTrait
 {
-    public function success($data = [], $code = 200)
+    public function success($data = [], $code = 200, $message="")
     {
         return response()->json([
             'status' => 'success',
-            'data' => $data
+            'data' => $data,
+            'message'=> $message
         ], $code);
     }
 
-    public function error($message = '', $code = 400)
+    public function error($message = '', $code = 400, $data = [])
     {
         return response()->json([
             'status' => 'error',
+            'data' => $data,
             'message' => $message
         ], $code);
     }
