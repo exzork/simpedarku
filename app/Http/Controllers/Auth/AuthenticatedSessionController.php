@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
         try {
             $request->authenticate();
         }catch (\Exception $e){
-            return $this->error($e->getMessage(), 403);
+            return $this->error(['errors'=>[$e->getMessage()]], 403);
         }
 
         $request->session()->regenerate();
@@ -61,6 +61,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return $request->wantsJson() ? $this->success('',204) : redirect('/');
+        return $request->wantsJson() ? $this->success([],204) : redirect('/');
     }
 }
