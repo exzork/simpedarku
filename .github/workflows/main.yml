@@ -26,6 +26,7 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             sudo chown -R muhammadekop_mep:muhammadekop_mep public
+            sudo chown -R muhammadekop_mep:muhammadekop_mep storage
             npm install
             npm run prod
             docker-compose build
