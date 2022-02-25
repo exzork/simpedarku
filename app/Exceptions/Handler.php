@@ -50,12 +50,6 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (Throwable $e, $request) {
 
-            if($e instanceof ServiceUnavailableHttpException){
-                if ($request->wantJson()) {
-                    return $this->error([], $e->getCode(), $e->getMessage());
-                }
-            }
-
             if ($e instanceof AuthenticationException) {
                 return $request->wantsJson()
                     ? $this->error([], 422, $e->getMessage())
@@ -80,22 +74,10 @@ class Handler extends ExceptionHandler
                     : $e->getResponse();
             }
 
-            if ($e->getCode()==500){
-                return $request->wantsJson()
-                    ? $this->error([], 500, 'Internal Server Error.')
-                    : $e->getResponse();
-            }
-
-            if ($e->getCode()==404){
-                return $request->wantsJson()
-                    ? $this->error([], 404, 'Not Found.')
-                    : $e->getResponse();
-            }
-
-            if ($e->getCode()==403){
-                return $request->wantsJson()
-                    ? $this->error([], 403, 'Forbidden.')
-                    : $e->getResponse();
+            if ($e instanceof HttpException) {
+                if($request->wantsJson()){
+                    return $this->error([], $e->getStatusCode(), $e->getMessage());
+                }
             }
         });
     }
