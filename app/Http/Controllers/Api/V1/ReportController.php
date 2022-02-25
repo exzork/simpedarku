@@ -37,7 +37,7 @@ class ReportController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->error($validator->errors(), 403);
+            return $this->error(['errors'=>$validator->errors()], 403, 'Invalid Parameters');
         }
 
         $validated = $validator->validated();
@@ -56,7 +56,7 @@ class ReportController extends Controller
         $page = $request->get('page', 1);
         $reports = $reports->paginate($perPage, ['*'], 'page', $page);
 
-        return $this->success(['reports'=>ReportResource::collection($reports)], 200);
+        return $this->success(['reports'=>ReportResource::collection($reports)]);
     }
 
 
@@ -71,7 +71,7 @@ class ReportController extends Controller
         try {
             $this->authorize('create', Report::class);
         }catch (\Exception $e){
-            return $this->error('You are not authorized to create reports.', 403);
+            return $this->error([],'You are not authorized to create reports.', 403);
         }
 
         $validator = Validator::make($request->all(), [
@@ -83,7 +83,7 @@ class ReportController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->error($validator->errors(), 422);
+            return $this->error(['errors'=>$validator->errors()], 422, 'Invalid Parameters');
         }
 
         $validated = $validator->validated();
@@ -113,9 +113,9 @@ class ReportController extends Controller
         try {
             $this->authorize('view', $report);
         }catch (\Exception $e){
-            return $this->error('You are not authorized to view this report.', 403);
+            return $this->error([],'You are not authorized to view this report.', 403);
         }
-        return $this->success(['report'=>ReportResource::make($report)], 200);
+        return $this->success(['report'=>ReportResource::make($report)]);
     }
 
     /**
@@ -129,12 +129,12 @@ class ReportController extends Controller
     {
         $report = Report::withoutTrashed()->find($id);
         if (!$report) {
-            return $this->error('Not found', 404);
+            return $this->error([],'Not found', 404);
         }
         try {
             $this->authorize('update', $report);
         }catch (\Exception $e){
-            return $this->error('You are not authorized to update this report.', 403);
+            return $this->error([],'You are not authorized to update this report.', 403);
         }
         $validator = Validator::make($request->all(), [
             'type' => ['filled', Rule::in(['POLISI', 'RUMAH SAKIT', 'PEMADAM KEBAKARAN'])],
@@ -144,7 +144,7 @@ class ReportController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->error($validator->errors(), 422);
+            return $this->error(['errors'=>$validator->errors()], 422);
         }
 
         $validated_input = $validator->validated();
@@ -157,7 +157,7 @@ class ReportController extends Controller
         $validated = array_replace($report->toArray(), $validated_input);
         $validated['type_id'] = Type::where('name', $validated['type'])->first()->id;
         if ($report->update($validated)) {
-            return $this->success(['report'=>ReportResource::make($report)], 200);
+            return $this->success(['report'=>ReportResource::make($report)]);
         }
     }
 
@@ -171,13 +171,13 @@ class ReportController extends Controller
     {
         $report = Report::withoutTrashed()->find($id);
         if (!$report) {
-            return $this->error('Not found', 404);
+            return $this->error([],'Not found', 404);
         }
 
         try {
             $this->authorize('delete', $report);
         }catch (\Exception $e){
-            return $this->error('You are not authorized to delete this report.', 403);
+            return $this->error([],'You are not authorized to delete this report.', 403);
         }
 
         $report->delete();

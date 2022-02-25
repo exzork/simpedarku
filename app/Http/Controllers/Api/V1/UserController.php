@@ -24,9 +24,9 @@ class UserController extends Controller
         $users = User::get();
         if (!auth()->user()->is_admin) {
             $user = $users->where('id', auth()->user()->id)->first();
-            return $this->success(['user'=>UserResource::make($user)]);
+            return $this->success(['user'=>[UserResource::make($user)]]);
         }
-        return $this->success(['users'=>UserResource::collection($users)]);
+        return $this->success(['users'=>[UserResource::collection($users)]]);
     }
 
     /**
@@ -39,14 +39,14 @@ class UserController extends Controller
     {
         $user = User::find($id);
         if (!$user) {
-            return $this->error('User not found', 404);
+            return $this->error([], 404,'User not found');
         }
 
         try {
             $this->authorize('view', $user);
-            return $this->success(['user'=>UserResource::make($user)->with_profile()]);
+            return $this->success(['user'=>[UserResource::make($user)->with_profile()]]);
         } catch (\Exception $e) {
-            return $this->error('You are not authorized to view this user', 403);
+            return $this->error([],403, 'You are not authorized to view this user');
         }
     }
 
@@ -71,7 +71,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         if(!$user){
-            return $this->error('User not found',404);
+            return $this->error([],404,'User not found');
         }
 
         try {
@@ -86,15 +86,15 @@ class UserController extends Controller
             ]);
 
             if($validator->fails()){
-                return $this->error($validator->errors(),422);
+                return $this->error(['errors'=>[$validator->errors()]],422,'Validation failed');
             }
 
             $validatedData = $validator->validated();
             $user->update($validatedData);
 
-            return $this->success(['user'=>UserResource::make($user)->with_profile()]);
+            return $this->success(['user'=>[UserResource::make($user)->with_profile()]]);
         }catch (\Exception $e){
-            return $this->error('You are not authorized to update this user',403);
+            return $this->error([],403,'You are not authorized to update this user');
         }
     }
 }

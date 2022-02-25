@@ -42,7 +42,7 @@ class AuthenticatedSessionController extends Controller
 
         $user =  UserResource::make(\auth()->user())->api_token($api_token);
 
-        return $request->wantsJson() ? $this->success(['user'=>$user]): redirect()->intended(RouteServiceProvider::HOME);
+        return $request->wantsJson() ? $this->success(['user'=>[$user]]): redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**
