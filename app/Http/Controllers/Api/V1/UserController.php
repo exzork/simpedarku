@@ -24,9 +24,9 @@ class UserController extends Controller
         $users = User::get();
         if (!auth()->user()->is_admin) {
             $user = $users->where('id', auth()->user()->id)->first();
-            return $this->success(UserResource::make($user));
+            return $this->success(['user'=>UserResource::make($user)]);
         }
-        return $this->success(UserResource::collection($users));
+        return $this->success(['users'=>UserResource::collection($users)]);
     }
 
     /**
@@ -44,7 +44,7 @@ class UserController extends Controller
 
         try {
             $this->authorize('view', $user);
-            return $this->success(UserResource::make($user)->with_profile());
+            return $this->success(['user'=>UserResource::make($user)->with_profile()]);
         } catch (\Exception $e) {
             return $this->error('You are not authorized to view this user', 403);
         }
@@ -92,7 +92,7 @@ class UserController extends Controller
             $validatedData = $validator->validated();
             $user->update($validatedData);
 
-            return $this->success(UserResource::make($user)->with_profile());
+            return $this->success(['user'=>UserResource::make($user)->with_profile()]);
         }catch (\Exception $e){
             return $this->error('You are not authorized to update this user',403);
         }

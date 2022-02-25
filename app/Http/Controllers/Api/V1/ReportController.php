@@ -56,7 +56,7 @@ class ReportController extends Controller
         $page = $request->get('page', 1);
         $reports = $reports->paginate($perPage, ['*'], 'page', $page);
 
-        return $this->success(ReportResource::collection($reports), 200);
+        return $this->success(['reports'=>ReportResource::collection($reports)], 200);
     }
 
 
@@ -94,7 +94,7 @@ class ReportController extends Controller
         $validated['status'] = 'PENDING';
 
         if ($report = Report::create($validated)) {
-            return $this->success(ReportResource::make($report), 201);
+            return $this->success(['report'=>ReportResource::make($report)], 201);
         }
     }
 
@@ -115,7 +115,7 @@ class ReportController extends Controller
         }catch (\Exception $e){
             return $this->error('You are not authorized to view this report.', 403);
         }
-        return $this->success(ReportResource::make($report), 200);
+        return $this->success(['report'=>ReportResource::make($report)], 200);
     }
 
     /**
@@ -157,7 +157,7 @@ class ReportController extends Controller
         $validated = array_replace($report->toArray(), $validated_input);
         $validated['type_id'] = Type::where('name', $validated['type'])->first()->id;
         if ($report->update($validated)) {
-            return $this->success(ReportResource::make($report), 200);
+            return $this->success(['report'=>ReportResource::make($report)], 200);
         }
     }
 
