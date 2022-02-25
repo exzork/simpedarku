@@ -4,12 +4,14 @@ namespace App\Exceptions;
 
 use App\Traits\ResponseTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -47,6 +49,12 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (Throwable $e, $request) {
+
+            if($e instanceof ServiceUnavailableHttpException){
+                if ($request->wantJson()) {
+                    return $this->error([], $e->getCode(), $e->getMessage());
+                }
+            }
 
             if ($e instanceof AuthenticationException) {
                 return $request->wantsJson()
