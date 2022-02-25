@@ -17,6 +17,7 @@ use Throwable;
 class Handler extends ExceptionHandler
 {
     use ResponseTrait;
+
     /**
      * A list of the exception types that are not reported.
      *
@@ -56,9 +57,9 @@ class Handler extends ExceptionHandler
                     : redirect()->to('login');
             }
 
-            if($e instanceof ValidationException){
+            if ($e instanceof ValidationException) {
                 return $request->wantsJson()
-                    ? $this->error(['errors'=>array_values(Arr::dot($e->validator->errors()->toArray()))], 422, $e->getMessage())
+                    ? $this->error(['errors' => array_values(Arr::dot($e->validator->errors()->toArray()))], 422, $e->getMessage())
                     : $e->getResponse();
             }
 
@@ -68,15 +69,24 @@ class Handler extends ExceptionHandler
                     : $e->getResponse();
             }
 
-            if($e->getPrevious() instanceof TokenMismatchException) {
+            if ($e->getPrevious() instanceof TokenMismatchException) {
                 return $request->wantsJson()
                     ? $this->error(null, $e->getStatusCode(), $e->getMessage())
                     : $e->getResponse();
             }
 
             if ($e instanceof HttpException) {
-                if($request->wantsJson()){
-                    return $this->error(null, $e->getStatusCode(), $e->getMessage());
+                if ($request->wantsJson()) {
+                    $message = match ($e->getStatusCode()) {
+                        503 => 'Service unavailable',
+                        500 => 'Internal server error',
+                        404 => 'Not found',
+                        405 => 'Method not allowed',
+                        401 => 'Unauthorized',
+                        400 => 'Bad request',
+                        default => 'Unknown error',
+                    };
+                    return $this->error(null, $e->getStatusCode(),$e->getMessage() == "" ? $message : $e->getMessage());
                 }
             }
         });
