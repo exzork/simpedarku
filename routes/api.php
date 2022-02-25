@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->name('api.')->group(function(){
     Route::apiResource('reports',\App\Http\Controllers\Api\V1\ReportController::class);
-    Route::get('/users/profile',[\App\Http\Controllers\Api\V1\UserController::class,'profile'])->name('user.profile.show');
-    Route::put('/users/profile',[\App\Http\Controllers\Api\V1\UserController::class,'updateProfile'])->name('user.profile.update');
+    Route::get('/user/profile',[\App\Http\Controllers\Api\V1\UserController::class,'profile'])->name('user.profile.show');
+    Route::put('/user/profile',[\App\Http\Controllers\Api\V1\UserController::class,'updateProfile'])->name('user.profile.update');
     Route::apiResource('users',\App\Http\Controllers\Api\V1\UserController::class);
 
 });
