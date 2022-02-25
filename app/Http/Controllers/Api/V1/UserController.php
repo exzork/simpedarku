@@ -37,17 +37,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
-        if (!$user) {
-            return $this->error([], 404,'User not found');
-        }
-
-        try {
-            $this->authorize('view', $user);
-            return $this->success(['users'=>[UserResource::make($user)->with_profile()]]);
-        } catch (\Exception $e) {
-            return $this->error([],403, 'You are not authorized to view this user');
-        }
+        $user = User::findOrFail($id);
+        $this->authorize('view', $user);
+        return $this->success(['users'=>[UserResource::make($user)->with_profile()]]);
     }
 
 
@@ -69,32 +61,16 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
-        if(!$user){
-            return $this->error([],404,'User not found');
-        }
-
-        try {
-            $this->authorize('update', $user);
-
-            $validator = Validator::make($request->all(),[
-                'email' => 'filled|email|unique:users,email,'.$user->id,
-                'address' => 'filled|string',
-                'blood_type' => 'filled',
-                'phone' => 'filled|phone',
-                'emergency_phone' => 'filled|phone',
-            ]);
-
-            if($validator->fails()){
-                return $this->error(['errors'=>[$validator->errors()]],422,'Validation failed');
-            }
-
-            $validatedData = $validator->validated();
-            $user->update($validatedData);
-
-            return $this->success(['user'=>[UserResource::make($user)->with_profile()]]);
-        }catch (\Exception $e){
-            return $this->error([],403,'You are not authorized to update this user');
-        }
+        $user = User::findOrFail($id);
+        $this->authorize('update', $user);
+        $validatedData = $request->validated([
+            'email' => 'filled|email|unique:users,email,'.$user->id,
+            'address' => 'filled|string',
+            'blood_type' => 'filled',
+            'phone' => 'filled|phone',
+            'emergency_phone' => 'filled|phone',
+        ]);
+        $user->update($validatedData);
+        return $this->success(['user'=>[UserResource::make($user)->with_profile()]]);
     }
 }

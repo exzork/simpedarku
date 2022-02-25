@@ -31,17 +31,13 @@ class ReportController extends Controller
             $reports = $reports->where('user_id', auth()->id());
         }
 
-        $validator = Validator::make($request->all(), [
+
+
+        $validated = $request->validate([
             'order' => ['nullable', 'string', 'in:asc,desc'],
             'sort' => ['nullable', 'string', 'in:id,description,status,created_at,updated_at'],
             'search' => ['nullable', 'string'],
         ]);
-
-        if ($validator->fails()) {
-            return $this->error(['errors'=>$validator->errors()], 403, 'Invalid Parameters');
-        }
-
-        $validated = $validator->validated();
 
         if (isset($validated['search'])) {
             $reports = $reports
@@ -69,25 +65,14 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $this->authorize('create', Report::class);
-        }catch (\Exception $e){
-            return $this->error([],'You are not authorized to create reports.', 403);
-        }
-
-        $validator = Validator::make($request->all(), [
+        $this->authorize('create', Report::class);
+        $validated = $request->validate([
             'type' => ['required', Rule::in(['POLISI', 'RUMAH SAKIT', 'PEMADAM KEBAKARAN'])],
             'description' => 'present',
             'image' => ['present', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:10240'],
             'location'=> ['present','string'],
             'title'=> ['present','string'],
         ]);
-
-        if ($validator->fails()) {
-            return $this->error(['errors'=>array_values(Arr::dot($validator->errors()->toArray()))], 422, 'Invalid Parameters');
-        }
-
-        $validated = $validator->validated();
 
         $validated['image_path'] = Storage::putFile('public/reports', $validated['image']);
         $validated['type_id'] = Type::where('name', $validated['type'])->first()->id;
@@ -107,15 +92,8 @@ class ReportController extends Controller
      */
     public function show($id)
     {
-        $report = Report::withoutTrashed()->find($id);
-        if(!$report){
-            return $this->error('Not found', 404);
-        }
-        try {
-            $this->authorize('view', $report);
-        }catch (\Exception $e){
-            return $this->error([],'You are not authorized to view this report.', 403);
-        }
+        $report = Report::withoutTrashed()->findOrFail($id);
+        $this->authorize('view', $report);
         return $this->success(['report'=>ReportResource::make($report)]);
     }
 
@@ -128,27 +106,14 @@ class ReportController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $report = Report::withoutTrashed()->find($id);
-        if (!$report) {
-            return $this->error([],'Not found', 404);
-        }
-        try {
-            $this->authorize('update', $report);
-        }catch (\Exception $e){
-            return $this->error([],'You are not authorized to update this report.', 403);
-        }
-        $validator = Validator::make($request->all(), [
+        $report = Report::withoutTrashed()->findOrFail($id);
+        $this->authorize('update', $report);
+        $validated_input = $request->validate([
             'type' => ['filled', Rule::in(['POLISI', 'RUMAH SAKIT', 'PEMADAM KEBAKARAN'])],
             'description' => 'filled|string',
             'image' => ['filled', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:10240'],
             'status' => [Rule::in(['PENDING', 'PROCESS', 'DONE'])],
         ]);
-
-        if ($validator->fails()) {
-            return $this->error(['errors'=>$validator->errors()], 422);
-        }
-
-        $validated_input = $validator->validated();
         if($validated_input['image']){
             if($report->image_path){
                 Storage::delete($report->image_path);
@@ -170,16 +135,8 @@ class ReportController extends Controller
      */
     public function destroy($id)
     {
-        $report = Report::withoutTrashed()->find($id);
-        if (!$report) {
-            return $this->error([],'Not found', 404);
-        }
-
-        try {
-            $this->authorize('delete', $report);
-        }catch (\Exception $e){
-            return $this->error([],'You are not authorized to delete this report.', 403);
-        }
+        $report = Report::withoutTrashed()->findOrFail($id);
+        $this->authorize('delete', $report);
 
         $report->delete();
         return $this->success(null, 204);
