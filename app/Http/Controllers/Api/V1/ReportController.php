@@ -8,6 +8,7 @@ use App\Models\Report;
 use App\Models\Type;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -83,7 +84,7 @@ class ReportController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->error(['errors'=>$validator->errors()], 422, 'Invalid Parameters');
+            return $this->error(['errors'=>array_values(Arr::dot($validator->errors()->toArray()))], 422, 'Invalid Parameters');
         }
 
         $validated = $validator->validated();
