@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -52,6 +53,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        $api_token = \auth()->user()->createToken('API Token')->plainTextToken;
+
+        $user =  UserResource::make(\auth()->user())->api_token($api_token);
+
+        return $request->wantsJson() ? $this->success(['user'=>$user]): redirect()->intended(RouteServiceProvider::HOME);
     }
 }
