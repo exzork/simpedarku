@@ -23,6 +23,7 @@ class ReportResource extends JsonResource
             'location'=>$this->location,
             'description'=>$this->description,
             'image_url'=> $this->image_path == null ? "null" : Storage::url($this->image_path),
+            'created_at'=>$this->created_at,
             'status'=>$this->status,
         ];
     }
