@@ -52,6 +52,11 @@ class UserController extends Controller
         return $this->update($request, auth()->id());
     }
 
+    public function logout(){
+        auth()->user()->tokens->where('name', "API Token")->each->delete();
+        return $this->success(null,204);
+    }
+
     /**
      * Update the specified resource in storage.
      *
