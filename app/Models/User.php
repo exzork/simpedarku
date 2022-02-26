@@ -27,7 +27,7 @@ class User extends Authenticatable
         'address',
         'blood_type',
         'phone',
-        'emergency_phone',
+        'emergency_contact',
         'is_admin',
         'is_stakeholder',
         'stakeholder_id'

@@ -34,7 +34,7 @@ class UserResource extends JsonResource
             $data['address'] = $this->address;
             $data['blood_type'] = $this->blood_type;
             $data['phone'] = $this->phone;
-            $data['emergency_phone'] = $this->emergency_phone;
+            $data['emergency_contact'] = $this->emergency_contact;
         }
 
         return $data;

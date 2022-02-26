@@ -43,7 +43,7 @@ class RegisteredUserController extends Controller
             'address'=>['required','string','max:255'],
             'blood_type'=>['required',Rule::in(['A','B','AB','O'])],
             'phone'=>['required','numeric','digits_between:10,13'],
-            'emergency_phone'=>['required','numeric','digits_between:10,13'],
+            'emergency_contact'=>['required','numeric','digits_between:10,13'],
         ]);
         $requestData['password'] = Hash::make($requestData['password']);
         $user = User::create($requestData);

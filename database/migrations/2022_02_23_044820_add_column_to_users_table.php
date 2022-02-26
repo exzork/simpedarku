@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('address');
             $table->string('blood_type');
             $table->string('phone');
-            $table->string('emergency_phone');
+            $table->string('emergency_contact');
         });
     }
 
