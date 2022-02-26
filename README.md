@@ -15,6 +15,7 @@ Dengan semakin banyaknya kasus yang bersifat darurat, baik itu kejahatan, kecela
 ## APK
 
 Belum tersedia
+Repository = [simpedarku-app](https://github.com/exzork/simpedarku-app)
 
 ## TODO
 
@@ -32,8 +33,8 @@ Belum tersedia
 
 ### Apk
 
-- [ ] Login dan Register menggunakan apk.
+- [x] Login dan Register menggunakan apk.
 - [ ] Pembuatan form untuk masing masing kategori.
-- [ ] Listing history laporan.
+- [x] Listing history laporan.
 - [ ] Update profil.
 - [ ] Penggunaan GPS untuk input lokasi.
