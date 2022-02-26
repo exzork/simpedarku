@@ -29,7 +29,7 @@ class UserFactory extends Factory
             'address'=>$this->faker->address(),
             'blood_type'=>$this->faker->bloodType(),
             'phone'=>$this->faker->phoneNumber(),
-            'emergency_phone'=>$this->faker->phoneNumber(),
+            'emergency_contact'=>$this->faker->phoneNumber(),
         ];
     }
 

@@ -25,7 +25,7 @@ class AdminSeeder extends Seeder
             'address'=>'-',
             'blood_type'=>'-',
             'phone'=>'000000000000',
-            'emergency_phone'=>'000000000000',
+            'emergency_contact'=>'000000000000',
             'is_admin' => true
         ]);
         $user->save();
