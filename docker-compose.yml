@@ -22,4 +22,5 @@ services:
             - LETSENCRYPT_HOST=simpedarku-dev.exzork.me
             - LETSENCRYPT_EMAIL=muhammadeko.if@gmail.com
 networks:
-    name: nginx-proxy
+    default :
+        name: nginx-proxy
