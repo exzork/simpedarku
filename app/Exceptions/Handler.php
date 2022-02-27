@@ -51,32 +51,23 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (Throwable $e, $request) {
 
-            if ($e instanceof AuthenticationException) {
-                return $request->wantsJson()
-                    ? $this->error(null, 422, $e->getMessage())
-                    : redirect()->to('login');
-            }
+            if($request->wantsJson()){
+                if ($e instanceof AuthenticationException) {
+                    return $this->error(null, 422, $e->getMessage());
+                }
 
-            if ($e instanceof ValidationException) {
-                return $request->wantsJson()
-                    ? $this->error(['errors' => array_values(Arr::dot($e->validator->errors()->toArray()))], 422, $e->getMessage())
-                    : $e->getResponse();
-            }
+                if ($e instanceof ValidationException) {
+                    return $this->error(['errors' => array_values(Arr::dot($e->validator->errors()->toArray()))], 422, $e->getMessage());
+                }
 
-            if ($e->getPrevious() instanceof ModelNotFoundException) {
-                return $request->wantsJson()
-                    ? $this->error(null, $e->getStatusCode(), $e->getMessage())
-                    : $e->getResponse();
-            }
+                if ($e->getPrevious() instanceof ModelNotFoundException) {
+                    return $this->error(null, $e->getStatusCode(), $e->getMessage());
+                }
 
-            if ($e->getPrevious() instanceof TokenMismatchException) {
-                return $request->wantsJson()
-                    ? $this->error(null, $e->getStatusCode(), $e->getMessage())
-                    : $e->getResponse();
-            }
-
-            if ($e instanceof HttpException) {
-                if ($request->wantsJson()) {
+                if ($e->getPrevious() instanceof TokenMismatchException) {
+                    return $this->error(null, $e->getStatusCode(), $e->getMessage());
+                }
+                if ($e instanceof HttpException) {
                     $message = match ($e->getStatusCode()) {
                         503 => 'Service unavailable',
                         500 => 'Internal server error',
@@ -88,7 +79,9 @@ class Handler extends ExceptionHandler
                     };
                     return $this->error(null, $e->getStatusCode(),$e->getMessage() == "" ? $message : $e->getMessage());
                 }
+                return $this->error(null, 520, $e->getMessage());
             }
+            return parent::render($request, $e);
         });
     }
 
