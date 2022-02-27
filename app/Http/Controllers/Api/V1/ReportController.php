@@ -69,9 +69,9 @@ class ReportController extends Controller
         $validated = $request->validate([
             'type' => ['required', Rule::in(['POLISI', 'RUMAH SAKIT', 'PEMADAM KEBAKARAN'])],
             'description' => 'present',
-            'image' => ['present', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:10240'],
-            'location'=> ['present','string'],
-            'title'=> ['present','string'],
+            'image' => ['filled', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:20480'],
+            'location'=> ['filled','string'],
+            'title'=> ['filled','string'],
         ]);
 
         $validated['image_path'] = Storage::putFile('public/reports', $validated['image']);
