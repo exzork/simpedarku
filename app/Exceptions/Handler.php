@@ -65,7 +65,7 @@ class Handler extends ExceptionHandler
             }
 
             if ($e->getPrevious() instanceof ModelNotFoundException) {
-                return $this->error(null, $e->getStatusCode(), $e->getMessage());
+                return $this->error(null, $e->getStatusCode(), "Not Found");
             }
 
             if ($e->getPrevious() instanceof TokenMismatchException) {
