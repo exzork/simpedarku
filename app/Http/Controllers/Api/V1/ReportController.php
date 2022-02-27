@@ -118,7 +118,7 @@ class ReportController extends Controller
             if($report->image_path){
                 Storage::delete($report->image_path);
             }
-            $validated_input['image_path'] = Storage::putFile('public/reports', $validated_input['image']);
+            $validated_input['image_path'] = Storage::putFile('reports', $validated_input['image']);
         }
         $validated = array_replace($report->toArray(), $validated_input);
         $validated['type_id'] = Type::where('name', $validated['type'])->first()->id;
