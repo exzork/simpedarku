@@ -1,0 +1,25 @@
+version: "3"
+services:
+    exzork_simpedarku_dev:
+        container_name: exzork_simpedarku_dev
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        restart: always
+        expose:
+            - 80
+            - 443
+        links:
+            - mysql
+        depends_on:
+            - mysql
+        volumes:
+            - ./public:/var/www/html:rw
+            - ./storage:/var/www/storage:rw
+        environment:
+            - UPLOAD_LIMIT=20M
+            - VIRTUAL_HOST=simpedarku-dev.exzork.me
+            - LETSENCRYPT_HOST=simpedarku-dev.exzork.me
+            - LETSENCRYPT_EMAIL=muhammadeko.if@gmail.com
+networks:
+    name: nginx-proxy
