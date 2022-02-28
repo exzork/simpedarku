@@ -21,7 +21,7 @@ jobs:
           script: |
             cd ~/project/simpedarku/development/
             docker exec exzork_simpedarku_dev php artisan down
-            sudo git stash
+            git stash
             git pull --no-edit origin main
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
