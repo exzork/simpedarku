@@ -14,7 +14,7 @@ services:
         depends_on:
             - mysql
         volumes:
-            -
+            - ./upload.ini:/usr/local/etc/php/conf.d/upload.ini
             - ./public:/var/www/html:rw
             - ./storage:/var/www/storage:rw
         environment:
