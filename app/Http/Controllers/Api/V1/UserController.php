@@ -66,15 +66,21 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $user = User::findOrFail($id);
-        $this->authorize('update', $user);
-        $validatedData = $request->validated([
+        $validatedField = [
             'email' => 'filled|email|unique:users,email,'.$user->id,
             'address' => 'filled|string',
             'blood_type' => 'filled',
             'phone' => 'filled|phone',
             'emergency_phone' => 'filled|phone',
-        ]);
+        ];
+        if($id == auth()->id()){
+            $validatedField['current_password'] = 'filled|current_password';
+            $validatedField['password'] = 'filled|confirmed|min:6';
+        }
+        $this->authorize('update', $user);
+        $validatedData = $request->validated($validatedField);
         $user->update($validatedData);
         return $this->success(['user'=>UserResource::make($user)->with_profile()]);
     }

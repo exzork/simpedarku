@@ -20,5 +20,4 @@ Route::middleware('auth:sanctum')->name('api.')->group(function(){
     Route::put('/user/profile',[\App\Http\Controllers\Api\V1\UserController::class,'updateProfile'])->name('user.profile.update');
     Route::post('/user/logout',[\App\Http\Controllers\Api\V1\UserController::class,'logout'])->name('user.logout');
     Route::apiResource('users',\App\Http\Controllers\Api\V1\UserController::class);
-
 });
