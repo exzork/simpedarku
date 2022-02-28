@@ -73,8 +73,9 @@ class ReportController extends Controller
             'location'=> ['filled','string'],
             'title'=> ['filled','string'],
         ]);
-
-        $validated['image_path'] = Storage::putFile('public/reports', $validated['image']);
+        if(isset($validated['image'])){
+            $validated['image_path'] = Storage::putFile('public/reports', $validated['image']);
+        }
         $validated['type_id'] = Type::where('name', $validated['type'])->first()->id;
         $validated['user_id'] = auth()->id();
         $validated['status'] = 'PENDING';
