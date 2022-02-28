@@ -85,7 +85,9 @@ class UserController extends Controller
 
         $this->authorize('update', $user);
         $validatedData = $request->validate($validatedField);
-        $validatedData['password'] = Hash::make($validatedData['password']);
+        if (isset($validatedData['password'])) {
+            $validatedData['password'] = Hash::make($validatedData['password']);
+        }
         $user->update($validatedData);
         return $this->success(['user'=>UserResource::make($user)->with_profile()]);
     }
