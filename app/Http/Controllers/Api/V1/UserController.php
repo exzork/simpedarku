@@ -78,7 +78,9 @@ class UserController extends Controller
         ];
         if($id == auth()->id()){
             $validatedField['current_password'] = 'filled|current_password';
-            $validatedField['password'] = 'filled|confirmed|min:6';
+            if($request->get('password')!=""){
+                $validatedField['password'] = 'filled|confirmed|min:6';
+            }
         }
 
         $this->authorize('update', $user);
