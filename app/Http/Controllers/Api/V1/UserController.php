@@ -80,7 +80,7 @@ class UserController extends Controller
             $validatedField['password'] = 'filled|confirmed|min:6';
         }
         $this->authorize('update', $user);
-        $validatedData = $request->validated($validatedField);
+        $validatedData = $request->validate($validatedField);
         $user->update($validatedData);
         return $this->success(['user'=>UserResource::make($user)->with_profile()]);
     }
