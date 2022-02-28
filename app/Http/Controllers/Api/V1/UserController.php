@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -72,15 +73,17 @@ class UserController extends Controller
             'email' => 'filled|email|unique:users,email,'.$user->id,
             'address' => 'filled|string',
             'blood_type' => 'filled',
-            'phone' => 'filled|phone',
-            'emergency_phone' => 'filled|phone',
+            'phone' => 'filled|digits_between:9,13',
+            'emergency_phone' => 'filled|digits_between:9,13',
         ];
         if($id == auth()->id()){
             $validatedField['current_password'] = 'filled|current_password';
             $validatedField['password'] = 'filled|confirmed|min:6';
         }
+
         $this->authorize('update', $user);
         $validatedData = $request->validate($validatedField);
+        $validatedData['password'] = Hash::make($validatedData['password']);
         $user->update($validatedData);
         return $this->success(['user'=>UserResource::make($user)->with_profile()]);
     }
