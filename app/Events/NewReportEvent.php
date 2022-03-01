@@ -40,7 +40,7 @@ class NewReportEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'report' => ReportResource::make($this->report)
+            'report' => ReportResource::make(Report::find($this->report->id))
         ];
     }
 }
