@@ -8879,7 +8879,7 @@ window.Echo["private"]('newReport.3').listen('NewReportEvent', function (e) {
 });
 
 window.loadToTable = function (e) {
-  var clone = window.$("#report_item_template > tr").clone();
+  var clone = window.$("#report_item_template tr");
   console.log(clone.html());
   clone.find(".report-time").html(e.report.created_at);
   clone.find(".report-type").html(e.report.type.name);
