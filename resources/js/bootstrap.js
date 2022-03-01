@@ -44,7 +44,7 @@ window.Echo.private('newReport.3').listen('NewReportEvent', (e) => {loadToTable(
 
 window.loadToTable = function(e){
     let clone = window.$("#report_item_template > tr").clone();
-    console.log(clone.html())
+    console.log(clone.html());
     clone.find(".report-time").html(e.report.created_at);
     clone.find(".report-type").html(e.report.type.name);
     clone.find(".report-username").html(e.report.user.name);
