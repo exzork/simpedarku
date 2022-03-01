@@ -43,26 +43,24 @@ window.Echo.private('newReport.2').listen('NewReportEvent', (e) => loadToTable(e
 window.Echo.private('newReport.3').listen('NewReportEvent', (e) => loadToTable(e));
 
 window.loadToTable = function (e){
-    let template = window.$("#report_item_template > tr");
-    console.log(template);
-    let clone = template.cloneNode(true);
-    clone.querySelector(".report-time").innerHTML = e.report.created_at;
-    clone.querySelector(".report-type").innerHTML = e.report.type.name;
-    clone.querySelector(".report-username").innerHTML = e.report.user.name;
-    clone.querySelector(".report-title").innerHTML = e.report.title;
-    clone.querySelector(".report-location").innerHTML = e.report.location;
-    clone.querySelector(".report-status").innerHTML = e.report.status;
+    let clone = window.$("#report_item_template > tr").clone();
+    clone(".report-time").html(e.report.created_at);
+    clone(".report-type").html(e.report.type.name);
+    clone(".report-username").html(e.report.user.name);
+    clone(".report-title").html(e.report.title);
+    clone(".report-location").html(e.report.location);
+    clone(".report-status").html(e.report.status);
     switch (e.report.status){
         case 'PENDING':
-            clone.querySelector(".report-status").classList.add('text-red-500');
+            clone(".report-status").addClass('text-red-500');
             break;
         case 'PROCESS':
-            clone.querySelector(".report-status").classList.add('text-blue-500');
+            clone(".report-status").addClass('text-blue-500');
             break;
         case 'DONE':
-            clone.querySelector(".report-status").classList.add(' ext-green-600');
+            clone(".report-status").addClass('text-green-600');
             break;
     }
-    clone.querySelector(".report-detail").attr('href', window.location.href + '/' + e.report.id);
+    clone(".report-detail").attr('href', window.location.href + '/' + e.report.id);
     window.$("#report_body").prepend(clone);
 }
