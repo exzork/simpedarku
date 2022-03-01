@@ -74,7 +74,7 @@ class UserController extends Controller
             'address' => 'filled|string',
             'blood_type' => 'filled',
             'phone' => 'filled|digits_between:9,13',
-            'emergency_phone' => 'filled|digits_between:9,13',
+            'emergency_contact' => 'filled|digits_between:9,13',
         ];
         if($id == auth()->id()){
             $validatedField['current_password'] = 'filled|current_password';
