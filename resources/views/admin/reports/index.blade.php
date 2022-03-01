@@ -73,10 +73,7 @@
                                         </td>
                                     </tr>
                                 @endforelse
-                                </tbody>
-                            </table>
-                            <div class="hidden" id="report_item_template">
-                                <tr class="report_item">
+                                <tr id="report_item_template" class="hidden report_item">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm font-medium text-gray-900 report-time"></div>
                                     </td>
@@ -104,7 +101,8 @@
                                         </a>
                                     </td>
                                 </tr>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
