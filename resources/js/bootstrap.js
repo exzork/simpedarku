@@ -42,25 +42,26 @@ window.Echo.private('newReport.1').listen('NewReportEvent', (e) => {loadToTable(
 window.Echo.private('newReport.2').listen('NewReportEvent', (e) => {loadToTable(e)});
 window.Echo.private('newReport.3').listen('NewReportEvent', (e) => {loadToTable(e)});
 
-window.loadToTable = function (e){
+window.loadToTable = function(e){
     let clone = window.$("#report_item_template > tr").clone();
-    clone(".report-time").html(e.report.created_at);
-    clone(".report-type").html(e.report.type.name);
-    clone(".report-username").html(e.report.user.name);
-    clone(".report-title").html(e.report.title);
-    clone(".report-location").html(e.report.location);
-    clone(".report-status").html(e.report.status);
+    console.log(clone.html())
+    clone.find(".report-time").html(e.report.created_at);
+    clone.find(".report-type").html(e.report.type.name);
+    clone.find(".report-username").html(e.report.user.name);
+    clone.find(".report-title").html(e.report.title);
+    clone.find(".report-location").html(e.report.location);
+    clone.find(".report-status").html(e.report.status);
     switch (e.report.status){
         case 'PENDING':
-            clone(".report-status").addClass('text-red-500');
+            clone.find(".report-status").addClass('text-red-500');
             break;
         case 'PROCESS':
-            clone(".report-status").addClass('text-blue-500');
+            clone.find(".report-status").addClass('text-blue-500');
             break;
         case 'DONE':
-            clone(".report-status").addClass('text-green-600');
+            clone.find(".report-status").addClass('text-green-600');
             break;
     }
-    clone(".report-detail").attr('href', window.location.href + '/' + e.report.id);
+    clone.find(".report-detail").attr('href', window.location.href + '/' + e.report.id);
     window.$("#report_body").prepend(clone);
 }
