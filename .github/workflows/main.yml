@@ -28,7 +28,7 @@ jobs:
             sudo chown -R muhammadekop_mep:muhammadekop_mep public
             sudo chown -R muhammadekop_mep:muhammadekop_mep storage
             npm install
-            npm run dev
+            npm run prod
             docker-compose build
             docker-compose up -d
             docker image prune -f
