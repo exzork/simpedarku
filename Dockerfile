@@ -6,9 +6,13 @@ RUN apt-get install -y libicu-dev libzip-dev
 RUN apt-get update
 RUN docker-php-ext-install intl
 RUN docker-php-ext-configure intl
-RUN docker-php-ext-install http
-RUN docker-php-ext-configure http
 RUN docker-php-ext-install mysqli pdo pdo_mysql zip exif
+
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/install-php-extensions && \
+    install-php-extensions http
+
 RUN a2enmod rewrite
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 RUN service apache2 restart
