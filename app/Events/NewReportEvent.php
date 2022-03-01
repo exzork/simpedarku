@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\ReportResource;
 use App\Models\Report;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -34,5 +35,12 @@ class NewReportEvent implements ShouldBroadcast
     public function broadcastOn()
     {
         return new PrivateChannel('newReport.'.$this->report->type_id);
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'report' => ReportResource::make($this->report)
+        ];
     }
 }
