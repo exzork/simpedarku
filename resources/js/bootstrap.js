@@ -43,6 +43,9 @@ window.Echo.private('newReport.2').listen('NewReportEvent', (e) => loadToTable(e
 window.Echo.private('newReport.3').listen('NewReportEvent', (e) => loadToTable(e));
 
 window.loadToTable = function (e){
+    console.log(e);
+    console.log(e.data);
+    console.log(e.report);
     let template = window.$("#report_item_template").children()[0];
     let clone = template.cloneNode(true);
     clone.querySelector(".report-time").innerHTML = e.report.created_at;

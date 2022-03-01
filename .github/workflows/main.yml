@@ -34,6 +34,5 @@ jobs:
             docker image prune -f
             docker exec exzork_simpedarku_dev chown -R www-data:www-data storage
             docker exec exzork_simpedarku_dev chown -R www-data:www-data html
-            docker exec exzork_simpedarku_dev php artisan migrate:refresh --seed
             docker exec exzork_simpedarku_dev ln -sf ../storage/app/public ./html/storage
             docker exec exzork_simpedarku_dev php artisan up

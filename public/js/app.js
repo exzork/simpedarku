@@ -8879,6 +8879,9 @@ window.Echo["private"]('newReport.3').listen('NewReportEvent', function (e) {
 });
 
 window.loadToTable = function (e) {
+  console.log(e);
+  console.log(e.data);
+  console.log(e.report);
   var template = window.$("#report_item_template").children()[0];
   var clone = template.cloneNode(true);
   clone.querySelector(".report-time").innerHTML = e.report.created_at;
