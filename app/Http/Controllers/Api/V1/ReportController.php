@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Events\NewReportEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReportResource;
 use App\Models\Report;
@@ -30,8 +31,6 @@ class ReportController extends Controller
         if(!auth()->user()->is_admin){
             $reports = $reports->where('user_id', auth()->id());
         }
-
-
 
         $validated = $request->validate([
             'order' => ['nullable', 'string', 'in:asc,desc'],
@@ -81,6 +80,7 @@ class ReportController extends Controller
         $validated['status'] = 'PENDING';
 
         if ($report = Report::create($validated)) {
+            broadcast(new NewReportEvent($report));
             return $this->success(['report'=>ReportResource::make($report)], 201);
         }
     }
