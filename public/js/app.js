@@ -8881,6 +8881,8 @@ window.Echo["private"]('newReport.3').listen('NewReportEvent', function (e) {
 window.loadToTable = function (e) {
   var clone = window.$("#report_item_template").clone();
   console.log(clone.html());
+  clone.removeAttr("id");
+  clone.removeAttr("class");
   clone.find(".report-time").html(e.report.created_at);
   clone.find(".report-type").html(e.report.type.name);
   clone.find(".report-username").html(e.report.user.name);
