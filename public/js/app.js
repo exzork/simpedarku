@@ -8907,7 +8907,15 @@ window.loadToTable = function (e) {
   }
 
   clone.find(".report-detail").attr('href', window.location.href + '/' + e.report.id);
-  window.$("#report_body").prepend(clone);
+  clone.addClass("report-item");
+  clone.addClass("report-status-" + e.report.status);
+  var lastOfClass = window.$("#report_list .report-status-" + e.report.status).children().last();
+
+  if (lastOfClass.length > 0) {
+    clone.insertAfter(lastOfClass);
+  } else {
+    window.$("#report_body").prepend(clone);
+  }
 };
 
 /***/ }),

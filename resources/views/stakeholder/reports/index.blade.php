@@ -28,7 +28,7 @@
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200" id="report_body">
                                 @forelse($reports as $report)
-                                    <tr class="report_item">
+                                    <tr class="report_item report-status-{{ $report->status }}">
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm font-medium text-gray-900 report-time">{{ $report->created_at }}</div>
                                         </td>
