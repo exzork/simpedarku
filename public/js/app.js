@@ -8869,13 +8869,13 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   enabledTransports: ['ws', 'wss']
 });
 window.Echo["private"]('newReport.1').listen('NewReportEvent', function (e) {
-  return loadToTable(e);
+  loadToTable(e);
 });
 window.Echo["private"]('newReport.2').listen('NewReportEvent', function (e) {
-  return loadToTable(e);
+  loadToTable(e);
 });
 window.Echo["private"]('newReport.3').listen('NewReportEvent', function (e) {
-  return loadToTable(e);
+  loadToTable(e);
 });
 
 window.loadToTable = function (e) {

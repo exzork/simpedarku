@@ -38,9 +38,9 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 });
 
-window.Echo.private('newReport.1').listen('NewReportEvent', (e) => loadToTable(e));
-window.Echo.private('newReport.2').listen('NewReportEvent', (e) => loadToTable(e));
-window.Echo.private('newReport.3').listen('NewReportEvent', (e) => loadToTable(e));
+window.Echo.private('newReport.1').listen('NewReportEvent', (e) => {loadToTable(e)});
+window.Echo.private('newReport.2').listen('NewReportEvent', (e) => {loadToTable(e)});
+window.Echo.private('newReport.3').listen('NewReportEvent', (e) => {loadToTable(e)});
 
 window.loadToTable = function (e){
     let clone = window.$("#report_item_template > tr").clone();
