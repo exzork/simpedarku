@@ -47,13 +47,13 @@
                                         <td class="px-6 py-4 whitespace-nowrap report-status">
                                             @switch($report->status)
                                                 @case('PENDING')
-                                                <div class="text-md text-red-500">{{ __('Belum Diproses') }}</div>
+                                                <div class="text-md text-red-500">{{ $report->status }}</div>
                                                 @break
                                                 @case('PROCESS')
-                                                <div class="text-md text-blue-500">{{ __('Diproses') }}</div>
+                                                <div class="text-md text-blue-500">{{ $report->status }}</div>
                                                 @break
                                                 @case('COMPLETED')
-                                                <div class="text-md text-green-600">{{ __('Selesai') }}</div>
+                                                <div class="text-md text-green-600">{{ $report->status }}</div>
                                                 @break
                                             @endswitch
                                         </td>
