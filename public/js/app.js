@@ -8882,7 +8882,6 @@ window.Echo["private"]('newReport.3').listen('NewReportEvent', function (e) {
 
 window.loadToTable = function (e) {
   var clone = window.$("#report_item_template").clone();
-  console.log(clone.html());
   clone.removeAttr("id");
   clone.removeAttr("class");
   clone.find(".report-time").html((0,dateformat__WEBPACK_IMPORTED_MODULE_1__["default"])(e.report.created_at, "yyyy-mm-dd HH:MM:ss"));
