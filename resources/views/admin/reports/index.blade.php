@@ -26,25 +26,25 @@
                                     </th>
                                 </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
+                                <tbody class="bg-white divide-y divide-gray-200" id="report_body">
                                 @forelse($reports as $report)
-                                    <tr>
+                                    <tr class="report_item">
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">{{ $report->created_at }}</div>
+                                            <div class="text-sm font-medium text-gray-900 report-time">{{ $report->created_at }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">{{ $report->type['name'] }}</div>
+                                            <div class="text-sm font-medium text-gray-900 report-type">{{ $report->type['name'] }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">{{ $report->user->name }}</div>
+                                            <div class="text-sm text-gray-900 report-username">{{ $report->user->name }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">{{ $report->title }}</div>
+                                            <div class="text-sm text-gray-900 report-title">{{ $report->title }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">{{ $report->location }}</div>
+                                            <div class="text-sm text-gray-900 report-location">{{ $report->location }}</div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-6 py-4 whitespace-nowrap report-status">
                                             @switch($report->status)
                                                 @case('PENDING')
                                                 <div class="text-md text-red-500">{{ __('Belum Diproses') }}</div>
@@ -58,37 +58,12 @@
                                             @endswitch
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap flex flex-grow text-right space-x-5 text-sm font-medium">
-                                            <a href="{{ route('admin.reports.show',['report'=>$report]) }}" type="button" class="flex space-x-1 text-indigo-600 hover:text-indigo-900">
+                                            <a href="{{ route('stakeholder.reports.show',['report'=>$report]) }}" class="report-detail" type="button" class="flex space-x-1 text-indigo-600 hover:text-indigo-900">
                                                 <span>
                                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                                 </span>
                                                 <span class="mt-0.5">Detail</span>
                                             </a>
-                                            @if($report->status == "PENDING")
-                                            <form method="POST" action="{{ route('admin.reports.update', ['report'=>$report]) }}">
-                                                @csrf
-                                                @method('PUT')
-                                                <input type="hidden" name="status" value="DENIED">
-                                                <button type="button" onclick="event.preventDefault();
-                                                    Swal.fire({
-                                                    title: '{{ __('Apakah anda yakin?') }}',
-                                                    icon: 'warning',
-                                                    showCancelButton: true,
-                                                    confirmButtonColor: '#3085d6',
-                                                    cancelButtonColor: '#d33',
-                                                    confirmButtonText: '{{ __('Ya, tolak!') }}',
-                                                    cancelButtonText: '{{ __('Batal') }}'
-                                                    }).then((result) => {
-                                                    if (result.isConfirmed) {
-                                                    this.parentNode.submit();
-                                                    }
-                                                    })"
-                                                        class="text-indigo-600 hover:text-indigo-900 flex space-x-1">
-                                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                    <span class="mt-0.5">Tolak</span>
-                                                </button>
-                                            </form>
-                                            @endif
                                         </td>
                                     </tr>
                                 @empty
@@ -100,6 +75,36 @@
                                 @endforelse
                                 </tbody>
                             </table>
+                            <div class="hidden" id="report_item_template">
+                                <tr class="report_item">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900 report-time"></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900 report-type"></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900 report-username"></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900 report-title"></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900 report-location"></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap report-status">
+                                        <div class="text-md"></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap flex flex-grow text-right space-x-5 text-sm font-medium">
+                                        <a href="#" type="button" class="report-detail flex space-x-1 text-indigo-600 hover:text-indigo-900">
+                                                <span>
+                                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                                </span>
+                                            <span class="mt-0.5">Detail</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </div>
                         </div>
                     </div>
                 </div>

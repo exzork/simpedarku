@@ -8869,8 +8869,42 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   enabledTransports: ['ws', 'wss']
 });
 window.Echo["private"]('newReport.1').listen('NewReportEvent', function (e) {
-  console.log(e);
+  return loadToTable(e);
 });
+window.Echo["private"]('newReport.2').listen('NewReportEvent', function (e) {
+  return loadToTable(e);
+});
+window.Echo["private"]('newReport.3').listen('NewReportEvent', function (e) {
+  return loadToTable(e);
+});
+
+window.loadToTable = function (e) {
+  var template = window.$("#report_item_template").children()[0];
+  var clone = template.cloneNode(true);
+  clone.querySelector(".report-time").innerHTML = e.report.created_at;
+  clone.querySelector(".report-type").innerHTML = e.report.type.name;
+  clone.querySelector(".report-username").innerHTML = e.report.user.name;
+  clone.querySelector(".report-title").innerHTML = e.report.title;
+  clone.querySelector(".report-location").innerHTML = e.report.location;
+  clone.querySelector(".report-status").innerHTML = e.report.status;
+
+  switch (e.report.status) {
+    case 'PENDING':
+      clone.querySelector(".report-status").classList.add('text-red-500');
+      break;
+
+    case 'PROCESS':
+      clone.querySelector(".report-status").classList.add('text-blue-500');
+      break;
+
+    case 'DONE':
+      clone.querySelector(".report-status").classList.add(' ext-green-600');
+      break;
+  }
+
+  clone.querySelector(".report-detail").attr('href', window.location.href + '/' + e.report.id);
+  window.$("#report_body").prepend(clone);
+};
 
 /***/ }),
 
