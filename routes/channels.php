@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('newReport.{typeId}', function ($user, $typeId) {
+    $user = auth()->user();
+    if($user->is_stakeholder || $user->is_admin) {
+        if($user->is_admin){
+            return true;
+        }else{
+            return $user->stakeholder->type_id == $typeId;
+        }
+    }
+    return false;
 });

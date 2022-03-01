@@ -36,7 +36,7 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 });
 
-window.Echo.private('new-report-POLISI')
+window.Echo.private('newReport.1')
     .listen('NewReportEvent', (e) => {
         console.log(e);
     });

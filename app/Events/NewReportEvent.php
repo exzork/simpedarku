@@ -33,6 +33,6 @@ class NewReportEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('new-report-'.$this->report->type->name);
+        return new PrivateChannel('newReport.'.$this->report->type_id);
     }
 }
