@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-fit mx-auto sm:px-2 lg:px-4">
+        <div class="max-w-7xl mx-auto sm:px-2 lg:px-4">
             <!-- This example requires Tailwind CSS v2.0+ -->
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
