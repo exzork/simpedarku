@@ -69,8 +69,8 @@ window.loadToTable = function(e){
     clone.addClass("report-status-"+e.report.status);
     let lastOfClass = window.$(".report-status-"+e.report.status).last();
     if(lastOfClass.length > 0){
-        clone.insertAfter(lastOfClass).slideDown();
+        clone.insertAfter(lastOfClass).hide().slideDown();
     }else{
-        window.$("#report_body").prepend(clone).slideDown();
+        window.$("#report_body").prepend(clone).hide().slideDown();
     }
 }
