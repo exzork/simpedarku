@@ -46,6 +46,7 @@ window.Echo.private('newReport.3').listen('NewReportEvent', (e) => {loadToTable(
 window.loadToTable = function(e){
     let clone = window.$("#report_item_template").clone();
     clone.removeAttr("id");
+    clone.removeAttr("class");
     clone.find(".report-time").html(dateFormat(e.report.created_at,"yyyy-mm-dd HH:MM:ss"));
     clone.find(".report-type").html(e.report.type.name);
     clone.find(".report-username").html(e.report.user.name);
