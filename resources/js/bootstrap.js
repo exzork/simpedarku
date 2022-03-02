@@ -73,4 +73,7 @@ window.loadToTable = function(e){
     }else{
         window.$("#report_body").prepend(clone).hide().slideDown();
     }
+    if(window.$("#no-report-data").length > 0){
+        window.$("#no-report-data").remove();
+    }
 }

@@ -67,7 +67,7 @@
                                         </td>
                                     </tr>
                                 @empty
-                                    <tr>
+                                    <tr id="no-report-data">
                                         <td colspan="7" class="px-6 py-4 whitespace-nowrap text-center" >
                                             <div class="text-sm font-medium text-gray-900">{{ __('Tidak ada data.') }}</div>
                                         </td>
