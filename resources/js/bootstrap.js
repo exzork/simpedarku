@@ -66,7 +66,7 @@ window.loadToTable = function(e){
     clone.find(".report-detail").attr('href', window.location.href + '/' + e.report.id);
     clone.addClass("report-item");
     clone.addClass("report-status-"+e.report.status);
-    let lastOfClass = window.$("#report_list .report-status-"+e.report.status).children().last();
+    let lastOfClass = window.$(".report-status-"+e.report.status).last();
     if(lastOfClass.length > 0){
         clone.insertAfter(lastOfClass).slideDown();
     }else{
