@@ -73,14 +73,14 @@ class ReportController extends Controller
             'title'=> ['filled','string'],
         ]);
         if(isset($validated['image'])){
-            $validated['image_path'] = Storage::putFile('public/reports', $validated['image']);
+            $validated['image_path'] = Storage::putFile('reports', $validated['image']);
         }
         $validated['type_id'] = Type::where('name', $validated['type'])->first()->id;
         $validated['user_id'] = auth()->id();
         $validated['status'] = 'PENDING';
 
         if ($report = Report::create($validated)) {
-            broadcast(new NewReportEvent($report));
+            //broadcast(new NewReportEvent($report));
             return $this->success(['report'=>ReportResource::make($report)], 201);
         }
     }
@@ -119,7 +119,7 @@ class ReportController extends Controller
             if($report->image_path){
                 Storage::delete($report->image_path);
             }
-            $validated_input['image_path'] = Storage::putFile('public/reports', $validated_input['image']);
+            $validated_input['image_path'] = Storage::putFile('reports', $validated_input['image']);
         }
         $validated = array_replace($report->toArray(), $validated_input);
         $validated['type_id'] = Type::where('name', $validated['type'])->first()->id;

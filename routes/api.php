@@ -21,3 +21,7 @@ Route::middleware('auth:sanctum')->name('api.')->group(function(){
     Route::post('/user/logout',[\App\Http\Controllers\Api\V1\UserController::class,'logout'])->name('user.logout');
     Route::apiResource('users',\App\Http\Controllers\Api\V1\UserController::class);
 });
+
+Route::post('/test',function(Request $request){
+    return response()->json($request->headers->all());
+});
