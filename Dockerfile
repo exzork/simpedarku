@@ -18,5 +18,6 @@ RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/Allo
 RUN service apache2 restart
 
 WORKDIR /var/www
+ADD composer.json composer.json
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN composer install
