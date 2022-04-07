@@ -15,6 +15,7 @@ services:
             - mysql
         volumes:
             - ./upload.ini:/usr/local/etc/php/conf.d/upload.ini
+            - ./:/var/www
             - ./public:/var/www/html:rw
             - ./storage:/var/www/storage:rw
         environment:

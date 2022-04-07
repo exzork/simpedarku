@@ -80,7 +80,7 @@ class ReportController extends Controller
         $validated['status'] = 'PENDING';
 
         if ($report = Report::create($validated)) {
-            //broadcast(new NewReportEvent($report));
+            broadcast(new NewReportEvent($report));
             return $this->success(['report'=>ReportResource::make($report)], 201);
         }
     }

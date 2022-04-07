@@ -17,15 +17,5 @@ RUN a2enmod rewrite
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 RUN service apache2 restart
 
-ADD . /var/www
-ADD ./public /var/www/html
-ADD .env /var/www/.env
 WORKDIR /var/www
-
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-RUN chown -R www-data:www-data /var/www/
-RUN chown -R www-data:www-data /var/www/storage
-RUN composer install
-
-EXPOSE 443
-EXPOSE 80
