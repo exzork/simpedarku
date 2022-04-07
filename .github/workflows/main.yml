@@ -21,8 +21,8 @@ jobs:
           script: |
             cd ~/project/simpedarku/development/
             docker exec exzork_simpedarku_dev php artisan down
-            sudo git stash
-            sudo git pull --no-edit origin main
+            git stash
+            git pull origin main
             docker-compose build
             docker-compose up -d
             docker image prune -f
