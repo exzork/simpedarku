@@ -19,3 +19,4 @@ RUN service apache2 restart
 
 WORKDIR /var/www
 COPY --from=composer /usr/bin/composer /usr/bin/composer
+RUN composer install
