@@ -18,6 +18,7 @@ services:
             - ./:/var/www
             - ./public:/var/www/html:rw
             - ./storage:/var/www/storage:rw
+            - /var/www/vendor
         environment:
             - VIRTUAL_HOST=simpedarku-dev.exzork.me
             - LETSENCRYPT_HOST=simpedarku-dev.exzork.me

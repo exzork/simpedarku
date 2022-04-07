@@ -20,9 +20,9 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ~/project/simpedarku/development/
-            docker exec exzork_simpedarku_dev php artisan down
             git stash
             git pull origin main
+            docker exec exzork_simpedarku_dev php artisan down
             docker-compose build
             docker-compose up -d
             docker image prune -f
