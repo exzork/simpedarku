@@ -52,7 +52,7 @@ class ReportController extends Controller
         $page = $request->get('page', 1);
         $reports = $reports->paginate($perPage, ['*'], 'page', $page);
 
-        return $this->success(['reports'=>ReportResource::collection($reports)]);
+        return $this->success(['reports'=>ReportResource::collection($reports)],200, "Reports retrieved successfully");
     }
 
 
@@ -81,7 +81,7 @@ class ReportController extends Controller
 
         if ($report = Report::create($validated)) {
             //broadcast(new NewReportEvent($report));
-            return $this->success(['report'=>ReportResource::make($report)], 201);
+            return $this->success(['report'=>ReportResource::make($report)], 201, 'Report has been created');
         }
     }
 
@@ -95,7 +95,7 @@ class ReportController extends Controller
     {
         $report = Report::withoutTrashed()->findOrFail($id);
         $this->authorize('view', $report);
-        return $this->success(['report'=>ReportResource::make($report)]);
+        return $this->success(['report'=>ReportResource::make($report)],200, "Report retrieved successfully");
     }
 
     /**
@@ -124,7 +124,7 @@ class ReportController extends Controller
         $validated = array_replace($report->toArray(), $validated_input);
         $validated['type_id'] = Type::where('name', $validated['type'])->first()->id;
         if ($report->update($validated)) {
-            return $this->success(['report'=>ReportResource::make($report)]);
+            return $this->success(['report'=>ReportResource::make($report)],200, "Report updated successfully");
         }
     }
 
@@ -140,6 +140,6 @@ class ReportController extends Controller
         $this->authorize('delete', $report);
 
         $report->delete();
-        return $this->success(null, 204);
+        return $this->success(null, 204, "Report deleted successfully");
     }
 }
